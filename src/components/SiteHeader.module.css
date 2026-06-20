@@ -1,0 +1,61 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: saturate(140%) blur(8px);
+}
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 22px 18px;
+}
+.brand {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--ink);
+}
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2.4vw, 34px);
+}
+.link {
+  position: relative;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--muted-2);
+  padding-block: 4px;
+  transition: color 0.2s ease;
+}
+.link:hover {
+  color: var(--ink);
+}
+.active {
+  color: var(--red);
+}
+.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: var(--red);
+}
+
+@media (max-width: 640px) {
+  .inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .nav {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}

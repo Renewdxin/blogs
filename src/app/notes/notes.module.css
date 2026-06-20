@@ -1,0 +1,78 @@
+.thread {
+  padding-top: 14px;
+  padding-bottom: 80px;
+  max-width: 760px;
+}
+.note {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 18px;
+}
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 6px;
+}
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--red);
+  flex: none;
+}
+.line {
+  width: 1px;
+  flex: 1;
+  background: var(--line-soft);
+  margin-top: 6px;
+}
+.note:last-child .line {
+  display: none;
+}
+.main {
+  padding-bottom: 34px;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.time {
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.permalink {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+.permalink:hover {
+  color: var(--red);
+}
+.title {
+  font-size: 1.25rem;
+  margin-top: 12px;
+}
+.body {
+  margin-top: 10px;
+}
+.body :global(.prose) {
+  font-size: 0.98rem;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+.tag {
+  font-size: 0.625rem;
+  color: var(--muted-2);
+  letter-spacing: 0.06em;
+}
+.empty {
+  padding: 40px 0;
+}

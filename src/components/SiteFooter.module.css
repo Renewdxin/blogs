@@ -1,0 +1,36 @@
+.footer {
+  margin-top: 40px;
+  padding-bottom: 44px;
+}
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  padding-top: 34px;
+}
+.name {
+  font-size: clamp(2rem, 1.2rem + 3vw, 3rem);
+  line-height: 1;
+}
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+.link {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 30px;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}

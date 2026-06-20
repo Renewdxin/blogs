@@ -1,0 +1,22 @@
+.header {
+  padding-top: 48px;
+  padding-bottom: 18px;
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+.title {
+  font-size: var(--fs-h1);
+  max-width: 18ch;
+}
+.lede {
+  margin-top: 22px;
+  max-width: 58ch;
+  font-size: 1.05rem;
+}
+.rule {
+  margin-top: 36px;
+}

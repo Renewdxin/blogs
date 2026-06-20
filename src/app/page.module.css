@@ -1,0 +1,202 @@
+.containerRule {
+  width: calc(100% - var(--gutter) * 2);
+  max-width: var(--container);
+  margin-inline: auto;
+}
+
+/* ---- hero ---- */
+.hero {
+  position: relative;
+  padding-top: 58px;
+  padding-bottom: 84px;
+}
+.heroGrid {
+  position: absolute;
+  inset: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  pointer-events: none;
+  z-index: 0;
+}
+.heroGrid span {
+  border-left: 1px solid var(--line-faint);
+}
+.heroGrid span:nth-child(2) {
+  background: var(--fill-faint);
+}
+.heroLabels {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.heroTitle {
+  position: relative;
+  z-index: 1;
+  font-size: var(--fs-display);
+  margin-top: 40px;
+  max-width: 16ch;
+}
+.heroValueprop {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 40px;
+  margin-top: 56px;
+}
+.heroValuelabel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.heroLede {
+  max-width: 60ch;
+  font-size: 1.05rem;
+}
+
+/* ---- generic section ---- */
+.section {
+  padding-top: 38px;
+  padding-bottom: 92px;
+}
+.sectionTitle {
+  font-size: var(--fs-h2);
+}
+.sectionMore {
+  margin-top: 40px;
+}
+.moreLink {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---- core features ---- */
+.sectionHead {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 48px;
+}
+.features {
+  display: flex;
+  flex-direction: column;
+}
+.feature {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 32px;
+  padding: 28px 0;
+  border-top: 1px solid var(--line-soft);
+}
+.feature:last-child {
+  border-bottom: 1px solid var(--line-soft);
+}
+.featureMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.featureTags {
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.featureTitle {
+  font-size: var(--fs-h3);
+  margin-bottom: 10px;
+}
+.featureDesc {
+  color: var(--ink-2);
+  max-width: 54ch;
+}
+
+/* ---- experience records ---- */
+.expHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 18px;
+  margin-bottom: 48px;
+}
+.expGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+.expNum {
+  display: block;
+  margin-bottom: 22px;
+}
+.expTitle {
+  font-size: 1.35rem;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.expDesc {
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* ---- notes & updates ---- */
+.notesHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 18px;
+  margin-bottom: 30px;
+}
+.notesSub {
+  margin-top: 12px;
+  font-size: 0.8rem;
+}
+
+/* ---- closing plaque ---- */
+.plaque {
+  padding-top: 44px;
+  padding-bottom: 80px;
+}
+.plaqueTitle {
+  font-size: var(--fs-h1);
+  max-width: 14ch;
+}
+.plaqueBody {
+  margin-top: 26px;
+  max-width: 54ch;
+}
+.plaqueLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 26px;
+  margin-top: 34px;
+}
+
+/* ---- responsive ---- */
+@media (max-width: 900px) {
+  .sectionHead,
+  .heroValueprop {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .feature {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .expGrid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .heroGrid {
+    display: none;
+  }
+}
+@media (max-width: 560px) {
+  .notesHead {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

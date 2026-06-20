@@ -1,0 +1,46 @@
+.article {
+  padding-top: 36px;
+  padding-bottom: 88px;
+  max-width: 760px;
+}
+.back {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.top {
+  display: flex;
+  gap: 18px;
+  margin-top: 40px;
+}
+.title {
+  font-size: var(--fs-h1);
+  margin-top: 18px;
+  max-width: 22ch;
+}
+.desc {
+  margin-top: 22px;
+  font-size: 1.1rem;
+  max-width: 60ch;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 24px;
+}
+.tag {
+  font-size: 0.65rem;
+  color: var(--muted-2);
+  letter-spacing: 0.06em;
+}
+.rule {
+  margin: 36px 0;
+}
+.updated {
+  margin-top: 40px;
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
