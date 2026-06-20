@@ -3,7 +3,7 @@ import { Inter, Ibarra_Real_Nova, Martian_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "../styles/globals.css";
 import SiteHeader from "../components/SiteHeader";
-import SiteFooter from "../components/SiteFooter";
+import ConditionalFooter from "../components/ConditionalFooter";
 import { site } from "../lib/site";
 
 const inter = Inter({
@@ -66,7 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <SiteHeader />
         <main id="main">{children}</main>
-        <SiteFooter />
+        <ConditionalFooter />
       </body>
     </html>
   );

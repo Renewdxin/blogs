@@ -90,10 +90,14 @@ ol {
 
 /* ---- layout primitives ---- */
 .container {
-  width: 100%;
-  max-width: var(--container);
+  /* Exact source model: 1128px content column, 36px gutters (1200px page). */
+  width: min(1128px, 100% - 72px);
   margin-inline: auto;
-  padding-inline: var(--gutter);
+}
+@media (max-width: 600px) {
+  .container {
+    width: min(1128px, 100% - 40px);
+  }
 }
 
 .rule {

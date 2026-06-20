@@ -1,202 +1,439 @@
-.containerRule {
-  width: calc(100% - var(--gutter) * 2);
-  max-width: var(--container);
-  margin-inline: auto;
-}
+/* ============================================================
+   Home — exact recreation of the source design (1128px column).
+   All values measured from the source: fonts, sizes, weights,
+   colors, line-heights, paddings, gaps, and widths.
+   ============================================================ */
 
-/* ---- hero ---- */
+/* ---------- ENTRANCE WALL (hero) ---------- */
 .hero {
   position: relative;
-  padding-top: 58px;
-  padding-bottom: 84px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding: 58px 0 84px;
 }
-.heroGrid {
+.rails {
   position: absolute;
-  inset: 0 var(--gutter);
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  inset: 0;
   pointer-events: none;
   z-index: 0;
 }
-.heroGrid span {
-  border-left: 1px solid var(--line-faint);
+.railLeft,
+.railMid,
+.railRight {
+  position: absolute;
+  top: 0;
+  bottom: 0;
 }
-.heroGrid span:nth-child(2) {
-  background: var(--fill-faint);
+.railLeft {
+  left: 0;
+  width: 86px;
+  background: rgba(32, 27, 22, 0.06);
 }
-.heroLabels {
+.railMid {
+  left: 376px;
+  width: 1px;
+  background: rgba(32, 27, 22, 0.04);
+}
+.railRight {
+  right: 188px;
+  width: 1px;
+  background: rgba(32, 27, 22, 0.04);
+}
+
+.entranceTop {
   position: relative;
   z-index: 1;
   display: flex;
   justify-content: space-between;
-  gap: 18px;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 24px;
 }
 .heroTitle {
   position: relative;
   z-index: 1;
-  font-size: var(--fs-display);
-  margin-top: 40px;
-  max-width: 16ch;
+  width: 1040px;
+  max-width: 100%;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 76px;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  color: var(--ink);
 }
-.heroValueprop {
+.heroLine {
+  display: block;
+}
+.wallLabel {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 40px;
-  margin-top: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding-top: 18px;
+  border-top: 2px solid var(--ink);
 }
-.heroValuelabel {
+.valuePropStack {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 2px;
+  width: 180px;
+  flex: none;
 }
-.heroLede {
-  max-width: 60ch;
-  font-size: 1.05rem;
-}
-
-/* ---- generic section ---- */
-.section {
-  padding-top: 38px;
-  padding-bottom: 92px;
-}
-.sectionTitle {
-  font-size: var(--fs-h2);
-}
-.sectionMore {
-  margin-top: 40px;
-}
-.moreLink {
-  font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+.valueBody {
+  width: 540px;
+  max-width: 100%;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.72;
+  color: var(--ink);
 }
 
-/* ---- core features ---- */
-.sectionHead {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 48px;
+/* ---------- shared mono labels ---------- */
+.labelRed,
+.labelBlue {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 10px;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
 }
-.features {
+.labelRed {
+  color: var(--red);
+}
+.labelBlue {
+  color: var(--blue);
+  line-height: 1;
+}
+
+/* ---------- CATALOG INDEX (core features) ---------- */
+.catalog {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 20px 0 90px;
+  border-top: 2px solid var(--ink);
+}
+.catalogTitle {
+  width: 240px;
+  flex: none;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 52px;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.entries {
+  width: 720px;
+  max-width: 100%;
+  padding-left: 18px;
+}
+.entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 18px 0;
+  background: var(--paper-raised);
+  border-top: 1px solid rgba(40, 34, 28, 0.2);
+}
+.entryLeft {
   display: flex;
   flex-direction: column;
+  gap: 36px;
+  width: 150px;
+  flex: none;
 }
-.feature {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 32px;
-  padding: 28px 0;
-  border-top: 1px solid var(--line-soft);
+.entryNumber {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  color: rgba(40, 34, 28, 0.48);
 }
-.feature:last-child {
-  border-bottom: 1px solid var(--line-soft);
+.entryMeta {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: rgba(40, 34, 28, 0.46);
 }
-.featureMeta {
+.entryRight {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex: 1;
 }
-.featureTags {
-  font-size: 0.7rem;
-  color: var(--muted);
-  letter-spacing: 0.02em;
+.entryTitle {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: rgb(40, 34, 28);
 }
-.featureTitle {
-  font-size: var(--fs-h3);
-  margin-bottom: 10px;
-}
-.featureDesc {
-  color: var(--ink-2);
-  max-width: 54ch;
+.entryDesc {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.62;
+  color: rgba(40, 34, 28, 0.62);
 }
 
-/* ---- experience records ---- */
-.expHead {
+/* ---------- WORKS VITRINE (experience records) ---------- */
+.works {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 18px;
-  margin-bottom: 48px;
+  flex-direction: column;
+  gap: 42px;
+  padding: 0 0 100px;
 }
-.expGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-}
-.expNum {
-  display: block;
-  margin-bottom: 22px;
-}
-.expTitle {
-  font-size: 1.35rem;
-  padding-bottom: 16px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid var(--line-soft);
-}
-.expDesc {
-  color: var(--ink-2);
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-/* ---- notes & updates ---- */
-.notesHead {
+.worksHeading {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 18px;
-  margin-bottom: 30px;
+  gap: 24px;
+  padding-top: 20px;
+  border-top: 2px solid var(--ink);
 }
-.notesSub {
-  margin-top: 12px;
-  font-size: 0.8rem;
+.worksTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 52px;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.worksRecords {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+.recordA,
+.recordB,
+.recordC {
+  display: flex;
+  flex-direction: column;
+  gap: 54px;
+}
+.recordA {
+  padding: 8px 22px 8px 0;
+}
+.recordB {
+  padding: 8px 22px 8px 22px;
+}
+.recordC {
+  padding: 8px 0 8px 22px;
+}
+.expNum {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+.expRed {
+  color: rgb(122, 30, 24);
+}
+.expBlue {
+  color: var(--blue);
+}
+.expMuted {
+  color: rgba(40, 34, 28, 0.46);
+}
+.recordTitle {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 31px;
+  line-height: 1;
+  color: rgb(40, 34, 28);
+}
+.recordDesc {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(40, 34, 28, 0.62);
 }
 
-/* ---- closing plaque ---- */
+/* ---------- RELEASE NOTES (notes & updates) ---------- */
+.release {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 34px 0 100px;
+  border-top: 2px solid var(--ink);
+}
+.releaseHeading {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 330px;
+  flex: none;
+}
+.releaseTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 46px;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.releaseSub {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--red);
+}
+.terminalLog {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 760px;
+  max-width: 100%;
+}
+.logEntry {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  color: var(--ink);
+}
+.logTime {
+  width: 170px;
+  flex: none;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  color: rgba(32, 27, 22, 0.52);
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  padding: 3px 6px;
+  background: rgba(32, 27, 22, 0.12);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 1;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.badgeDark {
+  background: var(--ink);
+  color: rgb(233, 221, 199);
+}
+.logTitle {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.logUpdate .logTitle {
+  font-weight: 700;
+  color: var(--red);
+}
+
+/* ---------- CLOSING PLAQUE ---------- */
 .plaque {
-  padding-top: 44px;
-  padding-bottom: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 34px 0 56px;
+  border-top: 2px solid var(--ink);
 }
 .plaqueTitle {
-  font-size: var(--fs-h1);
-  max-width: 14ch;
+  width: 360px;
+  flex: none;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 42px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
 }
 .plaqueBody {
-  margin-top: 26px;
-  max-width: 54ch;
-}
-.plaqueLinks {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 26px;
-  margin-top: 34px;
+  width: 520px;
+  max-width: 100%;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink);
 }
 
-/* ---- responsive ---- */
+/* ---------- responsive (≤ 900px: stack to single column) ---------- */
 @media (max-width: 900px) {
-  .sectionHead,
-  .heroValueprop {
-    grid-template-columns: 1fr;
-    gap: 24px;
+  .catalog,
+  .release,
+  .plaque {
+    flex-direction: column;
+    gap: 28px;
   }
-  .feature {
-    grid-template-columns: 1fr;
-    gap: 14px;
+  .catalogTitle,
+  .entries,
+  .releaseHeading,
+  .terminalLog,
+  .plaqueTitle,
+  .plaqueBody,
+  .valueBody {
+    width: 100%;
   }
-  .expGrid {
+  .heroTitle {
+    width: 100%;
+    font-size: clamp(40px, 9vw, 76px);
+  }
+  .worksRecords {
     grid-template-columns: 1fr;
     gap: 36px;
   }
-  .heroGrid {
+  .recordA,
+  .recordB,
+  .recordC {
+    padding: 0;
+    gap: 14px;
+  }
+  .wallLabel {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .rails {
     display: none;
   }
 }
 @media (max-width: 560px) {
-  .notesHead {
-    flex-direction: column;
-    align-items: flex-start;
+  .logEntry {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+  .logTime {
+    width: auto;
+  }
+  .logTitle {
+    flex-basis: 100%;
   }
 }

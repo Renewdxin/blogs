@@ -1,9 +1,9 @@
 import Link from "next/link";
-import LogRow from "../components/LogRow";
-import { getWorks, getFeed } from "../lib/content";
-import { fmtStamp } from "../lib/format";
-import { site } from "../lib/site";
 import styles from "./page.module.css";
+
+/* Exact recreation of the "File Exhibition" home design.
+   Content is fixed to match the source 1:1; title links point to the
+   matching pages but are styled identically (no visual change). */
 
 const features = [
   {
@@ -29,149 +29,163 @@ const features = [
   },
 ];
 
-export default function HomePage() {
-  const works = getWorks().slice(0, 3);
-  const feed = getFeed(5);
+const records = [
+  {
+    num: "EXP. 01",
+    numClass: styles.expRed,
+    title: "AI / hardware product engineering",
+    description:
+      "Role: bridge software, hardware signals, and AI interaction design. System: local-first device flows, cloud model routing, memory surfaces, and fallback states. Impact: moved exploratory companion-product concepts toward testable engineering prototypes.",
+    pad: styles.recordA,
+  },
+  {
+    num: "EXP. 02",
+    numClass: styles.expBlue,
+    title: "Backend infrastructure & data systems",
+    description:
+      "Role: design service foundations for high-throughput workloads. System: APIs, async workers, ingestion pipelines, observability, and operational boundaries. Impact: improved reliability, diagnosis speed, and delivery confidence under complex traffic conditions.",
+    pad: styles.recordB,
+  },
+  {
+    num: "EXP. 03",
+    numClass: styles.expMuted,
+    title: "AI-native engineering workflow",
+    description:
+      "Role: accelerate engineering execution with agentic tools and automation. System: terminal-first workflows, AI-assisted editing, repeatable scripts, and structured knowledge surfaces. Impact: reduced iteration cost while keeping implementation traceable and maintainable.",
+    pad: styles.recordC,
+  },
+];
 
+const logs = [
+  {
+    time: "2026-06-18 23:40:12",
+    badge: "> BLOG",
+    title: "MCP tool surfaces: turning agent actions into controlled engineering interfaces",
+    href: "/blog/mcp-tool-surfaces",
+  },
+  {
+    time: "2026-05-27 09:16:44",
+    badge: "> NOTE",
+    title: "backend boundaries for async workloads and observable service behavior",
+    href: "/notes/async-backend-boundaries",
+  },
+  {
+    time: "2026-04-09 18:03:28",
+    badge: "~ RESEARCH",
+    title: "local-first AI hardware loops, latency budgets, and fallback states",
+    href: "/blog/local-first-ai-hardware-loops",
+  },
+  {
+    time: "2026-06-18 23:58:01",
+    badge: "> UPDATE",
+    title: "currently collecting writing around agents, infra, and product-grade AI systems",
+    href: "/notes/currently-collecting-writing",
+    update: true,
+  },
+];
+
+export default function HomePage() {
   return (
     <>
-      {/* ============ ENTRANCE WALL (hero) ============ */}
-      <section className={`${styles.hero} container`}>
-        <div className={styles.heroGrid} aria-hidden="true">
-          <span />
-          <span />
-          <span />
-          <span />
-        </div>
-        <div className={styles.heroLabels}>
-          <span className="label label--red">
-            Product Brief · High-Availability Human System
-          </span>
-          <span className="label">Retro-Future Landing · Conversion Grid</span>
+      {/* ============ ENTRANCE WALL ============ */}
+      <section className={`container ${styles.hero}`}>
+        <div className={styles.rails} aria-hidden="true">
+          <span className={styles.railLeft} />
+          <span className={styles.railMid} />
+          <span className={styles.railRight} />
         </div>
 
-        <h1 className={`display ${styles.heroTitle}`}>{site.tagline}</h1>
+        <div className={styles.entranceTop}>
+          <span className={styles.labelRed}>PRODUCT BRIEF · HIGH-AVAILABILITY HUMAN SYSTEM</span>
+          <span className={styles.labelBlue}>RETRO-FUTURE LANDING · CONVERSION GRID</span>
+        </div>
 
-        <div className={styles.heroValueprop}>
-          <div className={styles.heroValuelabel}>
-            <span className="label label--ink">Value Prop</span>
-            <span className="label">03 Sec Read</span>
+        <h1 className={styles.heroTitle}>
+          <span className={styles.heroLine}>Architecting robust</span>{" "}
+          <span className={styles.heroLine}>backend systems and</span>{" "}
+          <span className={styles.heroLine}>orchestrating AI agents.</span>
+        </h1>
+
+        <div className={styles.wallLabel}>
+          <div className={styles.valuePropStack}>
+            <span className={styles.labelRed}>VALUE PROP</span>
+            <span className={styles.labelRed}>03 SEC READ</span>
           </div>
-          <p className={`lede ${styles.heroLede}`}>{site.description}</p>
+          <p className={styles.valueBody}>
+            A high-availability, extensible software / hardware / AI solution for teams that
+            need resilient infrastructure, deployable intelligence, and full-stack engineering
+            momentum without narrative overhead.
+          </p>
         </div>
       </section>
 
-      <Rule />
-
-      {/* ============ CATALOG INDEX (core features) ============ */}
-      <section className={`${styles.section} container`}>
-        <div className={styles.sectionHead}>
-          <h2 className={`display ${styles.sectionTitle}`}>
-            Core
-            <br />
-            features
-          </h2>
-          <div className={styles.features}>
-            {features.map((f) => (
-              <article key={f.number} className={styles.feature}>
-                <div className={styles.featureMeta}>
-                  <span className="label label--ink">{f.number}</span>
-                  <span className={`${styles.featureTags} mono`}>{f.meta}</span>
-                </div>
-                <div>
-                  <h3 className={`serif ${styles.featureTitle}`}>{f.title}</h3>
-                  <p className={styles.featureDesc}>{f.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <Rule />
-
-      {/* ============ WORKS VITRINE (experience records) ============ */}
-      <section className={`${styles.section} container`}>
-        <div className={styles.expHead}>
-          <h2 className={`display ${styles.sectionTitle}`}>Experience records</h2>
-          <span className="label">Role → System → Impact</span>
-        </div>
-        <div className={styles.expGrid}>
-          {works.map((w) => (
-            <article key={w.slug}>
-              <span className={`label label--ink ${styles.expNum}`}>
-                {w.data.number ?? "EXP."}
-              </span>
-              <h3 className={`serif ${styles.expTitle}`}>
-                <Link className="link" href={`/works/${w.slug}`}>
-                  {w.data.title}
-                </Link>
-              </h3>
-              <p className={styles.expDesc}>{w.data.summary}</p>
+      {/* ============ CATALOG INDEX ============ */}
+      <section className={`container ${styles.catalog}`}>
+        <h2 className={styles.catalogTitle}>Core features</h2>
+        <div className={styles.entries}>
+          {features.map((f) => (
+            <article key={f.number} className={styles.entry}>
+              <div className={styles.entryLeft}>
+                <span className={styles.entryNumber}>{f.number}</span>
+                <span className={styles.entryMeta}>{f.meta}</span>
+              </div>
+              <div className={styles.entryRight}>
+                <h3 className={styles.entryTitle}>{f.title}</h3>
+                <p className={styles.entryDesc}>{f.description}</p>
+              </div>
             </article>
           ))}
         </div>
-        <div className={styles.sectionMore}>
-          <Link className={`link link--red mono ${styles.moreLink}`} href="/works">
-            All works ↗
-          </Link>
-        </div>
       </section>
 
-      <Rule />
-
-      {/* ============ RELEASE NOTES (notes & updates) ============ */}
-      <section className={`${styles.section} container`}>
-        <div className={styles.notesHead}>
-          <div>
-            <h2 className={`display ${styles.sectionTitle}`}>Notes &amp; updates</h2>
-            <p className={`muted ${styles.notesSub}`}>
-              Blog, research logs, and technical fragments.
-            </p>
-          </div>
-          <Link className={`link link--red mono ${styles.moreLink}`} href="/blog">
-            Read the blog ↗
-          </Link>
+      {/* ============ WORKS VITRINE ============ */}
+      <section className={`container ${styles.works}`}>
+        <div className={styles.worksHeading}>
+          <h2 className={styles.worksTitle}>Experience records</h2>
+          <span className={styles.labelBlue}>ROLE → SYSTEM → IMPACT</span>
         </div>
-        <div>
-          {feed.map((item) => (
-            <LogRow
-              key={item.href}
-              timestamp={fmtStamp(item.date)}
-              kind={item.kind}
-              title={item.title}
-              href={item.href}
-              highlight={item.highlight}
-            />
+        <div className={styles.worksRecords}>
+          {records.map((r) => (
+            <article key={r.num} className={r.pad}>
+              <span className={`${styles.expNum} ${r.numClass}`}>{r.num}</span>
+              <h3 className={styles.recordTitle}>{r.title}</h3>
+              <p className={styles.recordDesc}>{r.description}</p>
+            </article>
           ))}
         </div>
       </section>
 
-      <Rule />
-
-      {/* ============ CLOSING PLAQUE (contact) ============ */}
-      <section className={`${styles.plaque} container`} id="contact">
-        <h2 className={`display ${styles.plaqueTitle}`}>Start deployment / contact</h2>
-        <p className={`lede ${styles.plaqueBody}`}>
-          Use the résumé, email, or repository links as conversion paths. Replace
-          placeholders with final documents and live addresses before launch.
-        </p>
-        <div className={styles.plaqueLinks}>
-          <a className={`link link--red mono ${styles.moreLink}`} href={`mailto:${site.email}`}>
-            {site.email} ↗
-          </a>
-          <Link className={`link link--red mono ${styles.moreLink}`} href="/contact">
-            Contact details ↗
-          </Link>
-          <a className={`link link--red mono ${styles.moreLink}`} href={site.github}>
-            GitHub ↗
-          </a>
+      {/* ============ RELEASE NOTES ============ */}
+      <section className={`container ${styles.release}`}>
+        <div className={styles.releaseHeading}>
+          <h2 className={styles.releaseTitle}>Notes &amp; updates</h2>
+          <span className={styles.releaseSub}>Blog, research logs, and technical fragments.</span>
         </div>
+        <div className={styles.terminalLog}>
+          {logs.map((l) => (
+            <Link
+              key={l.time}
+              href={l.href}
+              className={`${styles.logEntry} ${l.update ? styles.logUpdate : ""}`}
+            >
+              <span className={styles.logTime}>{l.time}</span>
+              <span className={`${styles.badge} ${l.update ? styles.badgeDark : ""}`}>
+                {l.badge}
+              </span>
+              <span className={styles.logTitle}>{l.title}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ============ CLOSING PLAQUE ============ */}
+      <section className={`container ${styles.plaque}`}>
+        <h2 className={styles.plaqueTitle}>Start deployment / contact</h2>
+        <p className={styles.plaqueBody}>
+          Use the resume, email, or repository links as conversion paths. Replace placeholders
+          with final documents and live addresses before launch.
+        </p>
       </section>
     </>
   );
-}
-
-function Rule() {
-  return <hr className={`rule ${styles.containerRule}`} />;
 }
