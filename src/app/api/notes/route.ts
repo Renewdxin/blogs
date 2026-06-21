@@ -1,17 +1,9 @@
 import { NextResponse } from "next/server";
-import { getDbNotes, createNote, deleteNote } from "../../../lib/db";
+import { getDbNotes, createNote, deleteNote, updateNote } from "../../../lib/db";
+import { isAuthorized } from "../../../lib/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-function authorized(request: Request): boolean {
-  const token = process.env.NOTES_TOKEN;
-  if (!token) return false;
-  const provided = (request.headers.get("authorization") ?? "")
-    .replace(/^Bearer\s+/i, "")
-    .trim();
-  return provided === token;
-}
 
 // GET /api/notes — list all notes (public).
 export async function GET() {
@@ -24,21 +16,13 @@ export async function GET() {
   }
 }
 
-// POST /api/notes — create a note. Requires Authorization: Bearer <NOTES_TOKEN>.
+// POST /api/notes — create a note (session cookie or bearer token).
 export async function POST(request: Request) {
-  if (!process.env.NOTES_TOKEN) {
-    return NextResponse.json({ error: "Posting is not configured" }, { status: 503 });
-  }
-  if (!authorized(request)) {
+  if (!(await isAuthorized(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  let payload: {
-    body?: string;
-    title?: string;
-    tags?: string[] | string;
-    pinned?: boolean;
-  };
+  let payload: { body?: string; title?: string; tags?: string[] | string; pinned?: boolean };
   try {
     payload = await request.json();
   } catch {
@@ -46,24 +30,16 @@ export async function POST(request: Request) {
   }
 
   const body = (payload.body ?? "").trim();
-  if (!body) {
-    return NextResponse.json({ error: "Body is required" }, { status: 400 });
-  }
+  if (!body) return NextResponse.json({ error: "Body is required" }, { status: 400 });
   if (body.length > 2000) {
     return NextResponse.json({ error: "Body too long (max 2000)" }, { status: 400 });
   }
-
-  const tags = Array.isArray(payload.tags)
-    ? payload.tags
-    : typeof payload.tags === "string"
-      ? payload.tags.split(",").map((t) => t.trim()).filter(Boolean)
-      : [];
 
   try {
     const note = await createNote({
       body,
       title: payload.title ?? null,
-      tags,
+      tags: normalizeTags(payload.tags),
       pinned: Boolean(payload.pinned),
     });
     return NextResponse.json({ note }, { status: 201 });
@@ -73,15 +49,49 @@ export async function POST(request: Request) {
   }
 }
 
-// DELETE /api/notes?id=<uuid> — remove a note. Requires the owner token.
+// PATCH /api/notes — edit a note.
+export async function PATCH(request: Request) {
+  if (!(await isAuthorized(request))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  let payload: {
+    id?: string;
+    body?: string;
+    title?: string | null;
+    tags?: string[] | string;
+    pinned?: boolean;
+  };
+  try {
+    payload = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  if (!payload.id) return NextResponse.json({ error: "id is required" }, { status: 400 });
+
+  try {
+    const note = await updateNote(payload.id, {
+      title: payload.title,
+      body: payload.body?.trim(),
+      tags: payload.tags === undefined ? undefined : normalizeTags(payload.tags),
+      pinned: payload.pinned,
+    });
+    if (!note) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json({ note });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: "Failed to update note" }, { status: 500 });
+  }
+}
+
+// DELETE /api/notes?id=<uuid> — remove a note.
 export async function DELETE(request: Request) {
-  if (!authorized(request)) {
+  if (!(await isAuthorized(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const id = new URL(request.url).searchParams.get("id");
-  if (!id) {
-    return NextResponse.json({ error: "id is required" }, { status: 400 });
-  }
+  if (!id) return NextResponse.json({ error: "id is required" }, { status: 400 });
   try {
     const ok = await deleteNote(id);
     if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -90,4 +100,10 @@ export async function DELETE(request: Request) {
     console.error(err);
     return NextResponse.json({ error: "Failed to delete note" }, { status: 500 });
   }
+}
+
+function normalizeTags(tags: string[] | string | undefined): string[] {
+  if (Array.isArray(tags)) return tags.map((t) => t.trim()).filter(Boolean);
+  if (typeof tags === "string") return tags.split(",").map((t) => t.trim()).filter(Boolean);
+  return [];
 }

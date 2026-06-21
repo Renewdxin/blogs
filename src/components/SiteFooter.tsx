@@ -27,7 +27,7 @@ export default function SiteFooter() {
           <span>
             © {year} {site.author}
           </span>
-          <span>Built with Next.js · Deployed as static</span>
+          <span>Built with Next.js · Neon</span>
         </div>
       </div>
     </footer>

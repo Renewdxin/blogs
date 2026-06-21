@@ -1,0 +1,295 @@
+/* ============================================================
+   Studio (admin) — fully responsive, mobile-first.
+   ============================================================ */
+
+/* ---------- login ---------- */
+.loginWrap {
+  display: flex;
+  justify-content: center;
+  padding-top: 12vh;
+  padding-bottom: 80px;
+}
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 380px;
+  padding: 30px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper-raised);
+}
+.loginTitle {
+  font-size: 2.4rem;
+  margin: 4px 0 0;
+}
+.loginHint {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 4px;
+}
+.loginInput {
+  width: 100%;
+  font-size: 16px;
+  padding: 13px 14px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+  border-radius: 9px;
+}
+.loginInput:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+.loginBtn {
+  width: 100%;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: var(--ink);
+  border: 0;
+  border-radius: 9px;
+  padding: 14px;
+  transition: background 0.18s ease;
+}
+.loginBtn:hover:not(:disabled) {
+  background: var(--red);
+}
+.loginBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ---------- studio shell ---------- */
+.studio {
+  max-width: 720px;
+  padding-top: 36px;
+  padding-bottom: 96px;
+}
+.topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-bottom: 22px;
+  margin-bottom: 26px;
+  border-bottom: 2px solid var(--ink);
+}
+.heading {
+  font-size: clamp(2rem, 1.4rem + 3vw, 2.75rem);
+  margin: 6px 0 0;
+}
+.topActions {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+/* ---------- shared controls ---------- */
+.ghost {
+  cursor: pointer;
+  border: 0;
+  background: none;
+  padding: 6px 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  transition: color 0.16s ease;
+}
+.ghost:hover {
+  color: var(--ink);
+}
+.danger {
+  cursor: pointer;
+  border: 0;
+  background: none;
+  padding: 6px 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  transition: color 0.16s ease;
+}
+.danger:hover {
+  color: var(--red);
+}
+
+/* ---------- composer / editor ---------- */
+.composer,
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper-raised);
+  margin-bottom: 30px;
+}
+.editor {
+  margin-bottom: 0;
+}
+.titleInput,
+.bodyInput,
+.tagsInput {
+  width: 100%;
+  font-size: 16px; /* >=16px avoids iOS focus zoom */
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  padding: 12px 13px;
+  font-family: var(--font-sans);
+}
+.bodyInput {
+  line-height: 1.6;
+  resize: vertical;
+  min-height: 110px;
+}
+.titleInput:focus,
+.bodyInput:focus,
+.tagsInput:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+.composerRow,
+.editActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.tagsInput {
+  flex: 1;
+  min-width: 160px;
+}
+.pin {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  white-space: nowrap;
+}
+.pin input {
+  width: 16px;
+  height: 16px;
+}
+.post {
+  flex: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: var(--ink);
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 22px;
+  min-height: 42px;
+  transition: background 0.18s ease;
+}
+.post:hover:not(:disabled) {
+  background: var(--red);
+}
+.post:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.hint {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.error {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--red);
+}
+
+/* ---------- notes list ---------- */
+.list {
+  display: flex;
+  flex-direction: column;
+}
+.item {
+  padding: 22px 0;
+  border-top: 1px solid var(--line-soft);
+}
+.item:last-child {
+  border-bottom: 1px solid var(--line-soft);
+}
+.itemHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.itemTime {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+.itemActions {
+  margin-left: auto;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.itemTitle {
+  margin: 12px 0 0;
+  font-size: 1.2rem;
+  color: var(--ink);
+}
+.itemBody {
+  margin: 8px 0 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+  white-space: pre-wrap;
+}
+.itemTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+.tag {
+  font-size: 0.62rem;
+  color: var(--muted-2);
+  letter-spacing: 0.06em;
+}
+
+/* ---------- phone ---------- */
+@media (max-width: 560px) {
+  .studio {
+    padding-top: 26px;
+  }
+  .topbar {
+    align-items: flex-start;
+  }
+  .composerRow {
+    gap: 10px;
+  }
+  .post {
+    flex: 1;
+  }
+  .itemActions {
+    margin-left: 0;
+    width: 100%;
+    gap: 18px;
+  }
+}

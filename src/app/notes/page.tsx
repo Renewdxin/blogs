@@ -2,8 +2,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import PageHeader from "../../components/PageHeader";
 import Prose from "../../components/Prose";
-import NoteComposer from "../../components/NoteComposer";
-import NoteDelete from "../../components/NoteDelete";
 import { getDbNotes } from "../../lib/db";
 import { fmtDateTime } from "../../lib/format";
 import styles from "./notes.module.css";
@@ -29,8 +27,6 @@ export default async function NotesPage() {
       />
 
       <section className={`container ${styles.thread}`}>
-        <NoteComposer />
-
         {notes.map((n) => (
           <article key={n.id} id={n.slug} className={styles.note}>
             <div className={styles.rail}>
@@ -46,7 +42,6 @@ export default async function NotesPage() {
                 <Link className={`mono ${styles.permalink}`} href={`/notes/${n.slug}`} aria-label="Permalink">
                   #
                 </Link>
-                <NoteDelete id={n.id} />
               </div>
               {n.title && <h2 className={`serif ${styles.title}`}>{n.title}</h2>}
               <div className={styles.body}>

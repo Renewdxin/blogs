@@ -85,3 +85,20 @@ export async function deleteNote(id: string): Promise<boolean> {
   const rows = await sql()`DELETE FROM notes WHERE id = ${id} RETURNING id`;
   return (rows as { id: string }[]).length > 0;
 }
+
+export async function updateNote(
+  id: string,
+  patch: { title?: string | null; body?: string; tags?: string[]; pinned?: boolean }
+): Promise<DbNote | undefined> {
+  const db = sql();
+  const rows = await db`
+    UPDATE notes SET
+      title  = COALESCE(${patch.title ?? null}, title),
+      body   = COALESCE(${patch.body ?? null}, body),
+      tags   = COALESCE(${patch.tags ?? null}, tags),
+      pinned = COALESCE(${patch.pinned ?? null}, pinned)
+    WHERE id = ${id}
+    RETURNING id, slug, title, body, tags, pinned, created_at
+  `;
+  return (rows as DbNote[])[0];
+}
