@@ -1,0 +1,93 @@
+import { NextResponse } from "next/server";
+import { getDbNotes, createNote, deleteNote } from "../../../lib/db";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+function authorized(request: Request): boolean {
+  const token = process.env.NOTES_TOKEN;
+  if (!token) return false;
+  const provided = (request.headers.get("authorization") ?? "")
+    .replace(/^Bearer\s+/i, "")
+    .trim();
+  return provided === token;
+}
+
+// GET /api/notes — list all notes (public).
+export async function GET() {
+  try {
+    const notes = await getDbNotes();
+    return NextResponse.json({ notes });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: "Failed to load notes" }, { status: 500 });
+  }
+}
+
+// POST /api/notes — create a note. Requires Authorization: Bearer <NOTES_TOKEN>.
+export async function POST(request: Request) {
+  if (!process.env.NOTES_TOKEN) {
+    return NextResponse.json({ error: "Posting is not configured" }, { status: 503 });
+  }
+  if (!authorized(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  let payload: {
+    body?: string;
+    title?: string;
+    tags?: string[] | string;
+    pinned?: boolean;
+  };
+  try {
+    payload = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  const body = (payload.body ?? "").trim();
+  if (!body) {
+    return NextResponse.json({ error: "Body is required" }, { status: 400 });
+  }
+  if (body.length > 2000) {
+    return NextResponse.json({ error: "Body too long (max 2000)" }, { status: 400 });
+  }
+
+  const tags = Array.isArray(payload.tags)
+    ? payload.tags
+    : typeof payload.tags === "string"
+      ? payload.tags.split(",").map((t) => t.trim()).filter(Boolean)
+      : [];
+
+  try {
+    const note = await createNote({
+      body,
+      title: payload.title ?? null,
+      tags,
+      pinned: Boolean(payload.pinned),
+    });
+    return NextResponse.json({ note }, { status: 201 });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: "Failed to create note" }, { status: 500 });
+  }
+}
+
+// DELETE /api/notes?id=<uuid> — remove a note. Requires the owner token.
+export async function DELETE(request: Request) {
+  if (!authorized(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const id = new URL(request.url).searchParams.get("id");
+  if (!id) {
+    return NextResponse.json({ error: "id is required" }, { status: 400 });
+  }
+  try {
+    const ok = await deleteNote(id);
+    if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: "Failed to delete note" }, { status: 500 });
+  }
+}

@@ -2,13 +2,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Prose from "../../../components/Prose";
-import { getNotes, getNote } from "../../../lib/content";
+import { getDbNote } from "../../../lib/db";
 import { fmtDateTime } from "../../../lib/format";
 import styles from "./note.module.css";
 
-export function generateStaticParams() {
-  return getNotes().map((n) => ({ slug: n.slug }));
-}
+// Notes are dynamic (DB-backed) — resolve each permalink at request time.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -16,19 +15,18 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const n = getNote(slug);
+  const n = await getDbNote(slug);
   if (!n) return {};
   return {
-    title: n.data.title ?? "Note",
-    description: n.data.title ?? n.body.trim().slice(0, 140),
+    title: n.title ?? "Note",
+    description: n.title ?? n.body.trim().slice(0, 140),
   };
 }
 
 export default async function NoteDetail({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const entry = getNote(slug);
-  if (!entry) notFound();
-  const d = entry.data;
+  const n = await getDbNote(slug);
+  if (!n) notFound();
 
   return (
     <article className={`container ${styles.detail}`}>
@@ -37,21 +35,21 @@ export default async function NoteDetail({ params }: { params: Promise<{ slug: s
       </Link>
 
       <div className={styles.top}>
-        <time className="label" dateTime={d.date}>
-          {fmtDateTime(d.date)}
+        <time className="label" dateTime={n.created_at}>
+          {fmtDateTime(n.created_at)}
         </time>
-        {d.pinned && <span className="label label--red">Pinned</span>}
+        {n.pinned && <span className="label label--red">Pinned</span>}
       </div>
 
-      {d.title && <h1 className={`display ${styles.title}`}>{d.title}</h1>}
+      {n.title && <h1 className={`display ${styles.title}`}>{n.title}</h1>}
 
       <div className={styles.body}>
-        <Prose>{entry.body}</Prose>
+        <Prose>{n.body}</Prose>
       </div>
 
-      {d.tags.length > 0 && (
+      {n.tags.length > 0 && (
         <ul className={styles.tags}>
-          {d.tags.map((t) => (
+          {n.tags.map((t) => (
             <li key={t} className={`mono ${styles.tag}`}>
               #{t}
             </li>

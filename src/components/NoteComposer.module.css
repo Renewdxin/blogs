@@ -1,0 +1,125 @@
+.composer,
+.gate {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper-raised);
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.signout {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.signout:hover {
+  color: var(--red);
+}
+.title,
+.body,
+.tags,
+.input {
+  width: 100%;
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+  border-radius: 7px;
+  padding: 10px 12px;
+}
+.title,
+.tags,
+.input {
+  font-size: 0.9rem;
+}
+.body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  resize: vertical;
+  min-height: 96px;
+}
+.title:focus,
+.body:focus,
+.tags:focus,
+.input:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tags {
+  flex: 1;
+}
+.pin {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  white-space: nowrap;
+}
+.post {
+  flex: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: var(--ink);
+  border: 0;
+  border-radius: 7px;
+  padding: 9px 18px;
+  transition: background 0.18s ease;
+}
+.post:hover:not(:disabled) {
+  background: var(--red);
+}
+.post:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.error {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--red);
+}
+.hint {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.delete {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.18s ease;
+}
+.delete:hover {
+  color: var(--red);
+}

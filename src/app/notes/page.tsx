@@ -2,7 +2,9 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import PageHeader from "../../components/PageHeader";
 import Prose from "../../components/Prose";
-import { getNotes } from "../../lib/content";
+import NoteComposer from "../../components/NoteComposer";
+import NoteDelete from "../../components/NoteDelete";
+import { getDbNotes } from "../../lib/db";
 import { fmtDateTime } from "../../lib/format";
 import styles from "./notes.module.css";
 
@@ -11,8 +13,12 @@ export const metadata: Metadata = {
   description: "碎碎念 — short notes, threads, and working fragments.",
 };
 
-export default function NotesPage() {
-  const notes = getNotes();
+// Always render fresh from the database so new notes appear instantly.
+export const dynamic = "force-dynamic";
+
+export default async function NotesPage() {
+  const notes = await getDbNotes();
+
   return (
     <>
       <PageHeader
@@ -23,29 +29,32 @@ export default function NotesPage() {
       />
 
       <section className={`container ${styles.thread}`}>
+        <NoteComposer />
+
         {notes.map((n) => (
-          <article key={n.slug} id={n.slug} className={styles.note}>
+          <article key={n.id} id={n.slug} className={styles.note}>
             <div className={styles.rail}>
               <span className={styles.dot} aria-hidden="true" />
               <span className={styles.line} aria-hidden="true" />
             </div>
             <div className={styles.main}>
               <div className={styles.head}>
-                <time className={`mono ${styles.time}`} dateTime={n.data.date}>
-                  {fmtDateTime(n.data.date)}
+                <time className={`mono ${styles.time}`} dateTime={n.created_at}>
+                  {fmtDateTime(n.created_at)}
                 </time>
-                {n.data.pinned && <span className="label label--red">Pinned</span>}
+                {n.pinned && <span className="label label--red">Pinned</span>}
                 <Link className={`mono ${styles.permalink}`} href={`/notes/${n.slug}`} aria-label="Permalink">
                   #
                 </Link>
+                <NoteDelete id={n.id} />
               </div>
-              {n.data.title && <h2 className={`serif ${styles.title}`}>{n.data.title}</h2>}
+              {n.title && <h2 className={`serif ${styles.title}`}>{n.title}</h2>}
               <div className={styles.body}>
                 <Prose>{n.body}</Prose>
               </div>
-              {n.data.tags.length > 0 && (
+              {n.tags.length > 0 && (
                 <ul className={styles.tags}>
-                  {n.data.tags.map((t) => (
+                  {n.tags.map((t) => (
                     <li key={t} className={`mono ${styles.tag}`}>
                       #{t}
                     </li>
@@ -55,6 +64,7 @@ export default function NotesPage() {
             </div>
           </article>
         ))}
+
         {notes.length === 0 && <p className={`muted ${styles.empty}`}>No notes yet.</p>}
       </section>
     </>
