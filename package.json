@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "description": "C Ren — Engineering System. Personal portfolio, blog, and notes (碎碎念).",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
